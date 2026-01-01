@@ -1,12 +1,35 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.9, ease: "easeOut" },
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
 export default function Home() {
   return (
-    <main className="min-h-screen px-8 py-24 max-w-3xl mx-auto">
+    <motion.main
+      className="min-h-screen px-8 py-24 max-w-3xl mx-auto"
+      initial="initial"
+      animate="animate"
+      variants={staggerContainer}
+    >
       {/* Intro Section */}
-      <section className="mb-32">
-        <h1 className="text-5xl font-light mb-6 text-neutral-900 dark:text-neutral-100">
+      <motion.section className="mb-32" variants={fadeInUp}>
+        <h1 className="text-5xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
           Your Name
         </h1>
-        <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 font-light">
+        <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 font-semibold">
           Designer, developer, and creative technologist
         </p>
         <div className="flex gap-6 text-sm">
@@ -35,11 +58,11 @@ export default function Home() {
             email
           </a>
         </div>
-      </section>
+      </motion.section>
 
       {/* Experience Section */}
-      <section className="mb-32">
-        <h2 className="text-2xl font-light mb-12 text-neutral-900 dark:text-neutral-100">
+      <motion.section className="mb-32" variants={fadeInUp}>
+        <h2 className="text-2xl font-bold mb-12 text-neutral-900 dark:text-neutral-100">
           Experience
         </h2>
         <div className="space-y-12">
@@ -108,11 +131,11 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Projects Section */}
-      <section className="mb-32">
-        <h2 className="text-2xl font-light mb-12 text-neutral-900 dark:text-neutral-100">
+      <motion.section className="mb-32" variants={fadeInUp}>
+        <h2 className="text-2xl font-bold mb-12 text-neutral-900 dark:text-neutral-100">
           Projects
         </h2>
         <div className="space-y-8">
@@ -185,10 +208,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Contact Section */}
-      <section>
+      <motion.section variants={fadeInUp}>
         <div className="flex gap-6 text-sm text-neutral-600 dark:text-neutral-400">
           <a
             href="https://linkedin.com/in/yourusername"
@@ -215,7 +238,7 @@ export default function Home() {
             email
           </a>
         </div>
-      </section>
-    </main>
+      </motion.section>
+    </motion.main>
   );
 }
