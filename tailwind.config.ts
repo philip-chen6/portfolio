@@ -6,7 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: ["class", "class"],
+  darkMode: "class",
   theme: {
   	extend: {
   		colors: {
@@ -60,9 +60,10 @@ const config: Config = {
   			]
   		},
   		fontWeight: {
-  			normal: '700',
-  			medium: '800',
-  			semibold: '900',
+  			light: '500',
+  			normal: '600',
+  			medium: '700',
+  			semibold: '800',
   			bold: '900',
   		},
   		borderRadius: {

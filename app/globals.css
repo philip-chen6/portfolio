@@ -72,4 +72,37 @@
     transition: background-color 0.3s, color 0.3s;
     cursor: none;
   }
+
+  /* Glassmorphism hover effect */
+  .glass-hover {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .glass-hover::before {
+    content: '';
+    position: absolute;
+    inset: -8px -12px;
+    background: hsl(var(--foreground) / 0.03);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    border: 1px solid hsl(var(--foreground) / 0.05);
+  }
+
+  .glass-hover:hover::before {
+    opacity: 1;
+  }
+
+  .glass-hover:hover {
+    transform: translateY(-2px);
+  }
+
+  .dark .glass-hover::before {
+    background: hsl(var(--foreground) / 0.05);
+    border: 1px solid hsl(var(--foreground) / 0.08);
+  }
 }
