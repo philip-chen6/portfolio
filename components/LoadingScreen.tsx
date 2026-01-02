@@ -16,7 +16,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
     let animationId: number;
     let startTime = Date.now();
-    const duration = 4500;
+    const duration = 3000;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -36,22 +36,21 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     }
 
     const particles: Particle[] = [];
-    const particleCount = 600;
-    const maxRadius = Math.min(canvas.width, canvas.height) * 0.6;
+    const particleCount = 500;
+    const maxRadius = Math.min(canvas.width, canvas.height) * 0.5;
 
-    // Create particles in a large disc, starting far away
     for (let i = 0; i < particleCount; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const radius = 30 + Math.random() * maxRadius;
-      const z = 200 + Math.random() * 800; // Start far away
+      const radius = 20 + Math.random() * maxRadius;
+      const z = 50 + Math.random() * 400;
 
       particles.push({
         angle,
         radius,
         z,
-        speed: 0.6 + Math.random() * 0.4,
-        orbitSpeed: 0.005 + Math.random() * 0.004,
-        size: 2 + Math.random() * 3,
+        speed: 0.5 + Math.random() * 0.5,
+        orbitSpeed: 0.004 + Math.random() * 0.003,
+        size: 2 + Math.random() * 2.5,
         opacity: 0.4 + Math.random() * 0.6,
       });
     }
@@ -60,61 +59,59 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Clear with slight trail
-      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const cx = canvas.width / 2;
       const cy = canvas.height / 2;
 
-      // Acceleration curve - starts slow, speeds up toward end
-      const acceleration = 1 + progress * progress * 2;
+      // Gradual acceleration throughout, faster at end
+      const acceleration = 1 + progress * progress * progress * 5;
 
-      // Sort by z for depth (far to near)
+      // Explosion starts at 60%
+      const explosionStart = 0.6;
+      const isExploding = progress > explosionStart;
+      const explosionProgress = isExploding ? (progress - explosionStart) / (1 - explosionStart) : 0;
+      const explosionEase = explosionProgress * explosionProgress;
+
       particles.sort((a, b) => b.z - a.z);
 
       particles.forEach((particle) => {
-        // Spiral rotation - continuous
+        // Spiral rotation
         particle.angle += particle.orbitSpeed * acceleration;
 
-        // Move toward camera - continuous, accelerating
-        particle.z -= particle.speed * acceleration * 1.2;
-
-        // Skip if way past camera
-        if (particle.z < -200) return;
+        // Move toward camera
+        particle.z -= particle.speed * acceleration * 0.8;
 
         // 3D projection
-        const perspective = 400 / Math.max(50, 400 + particle.z);
-        const x = cx + Math.cos(particle.angle) * particle.radius * perspective;
-        const y = cy + Math.sin(particle.angle) * particle.radius * perspective * 0.5;
+        const perspective = 300 / Math.max(30, 300 + particle.z);
+        let x = cx + Math.cos(particle.angle) * particle.radius * perspective;
+        let y = cy + Math.sin(particle.angle) * particle.radius * perspective * 0.5;
+
+        // During explosion: particles fly outward to screen edges
+        if (isExploding) {
+          const explodeDistance = explosionEase * canvas.width * 1.5;
+          x = cx + Math.cos(particle.angle) * (particle.radius * perspective + explodeDistance);
+          y = cy + Math.sin(particle.angle) * (particle.radius * perspective * 0.5 + explodeDistance * 0.6);
+        }
 
         const size = particle.size * perspective;
 
-        // Fade in at start, fade out when passing camera
+        // Fade
         let alpha = particle.opacity;
-        if (progress < 0.1) {
-          alpha *= progress / 0.1;
-        }
-        if (particle.z < 50) {
-          alpha *= Math.max(0, (particle.z + 200) / 250);
-        }
+        if (progress < 0.1) alpha *= progress / 0.1;
+        if (isExploding) alpha *= 1 - explosionEase;
 
-        // Depth-based opacity
         const depthAlpha = 0.3 + 0.7 * Math.min(1, perspective * 1.5);
 
-        // Draw streak when moving fast (toward end)
-        if (progress > 0.5 && particle.z < 400) {
-          const streakProgress = (progress - 0.5) / 0.5;
-          const streakLength = streakProgress * 30 * perspective;
+        // Streaks during explosion
+        if (isExploding && explosionProgress > 0.1) {
+          const streakLength = explosionEase * 80;
+          const tailX = x - Math.cos(particle.angle) * streakLength;
+          const tailY = y - Math.sin(particle.angle) * streakLength * 0.6;
 
-          // Streak tail position (further from camera)
-          const tailZ = particle.z + streakLength * 3;
-          const tailPerspective = 400 / Math.max(50, 400 + tailZ);
-          const tailX = cx + Math.cos(particle.angle) * particle.radius * tailPerspective;
-          const tailY = cy + Math.sin(particle.angle) * particle.radius * tailPerspective * 0.5;
-
-          ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * depthAlpha * 0.8})`;
-          ctx.lineWidth = size * 0.6;
+          ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * depthAlpha * 0.7})`;
+          ctx.lineWidth = size * 0.5;
           ctx.lineCap = "round";
           ctx.beginPath();
           ctx.moveTo(tailX, tailY);
@@ -133,7 +130,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         animationId = requestAnimationFrame(draw);
       } else {
         setIsExiting(true);
-        setTimeout(onComplete, 200);
+        setTimeout(onComplete, 50);
       }
     };
 
@@ -152,7 +149,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           className="loading-screen fixed inset-0 z-[9999] bg-black"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <canvas ref={canvasRef} className="w-full h-full" />
         </motion.div>

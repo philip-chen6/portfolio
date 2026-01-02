@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { LoadingScreen } from "./LoadingScreen";
 import { DotGrid } from "./DotGrid";
 import { SmoothCursor } from "./ui/smooth-cursor";
@@ -11,11 +12,23 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      <AnimatePresence>
+        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
       <DotGrid />
       {!isLoading && <SmoothCursor />}
       {!isLoading && <ThemeToggle />}
-      {!isLoading && children}
+      <AnimatePresence>
+        {!isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
