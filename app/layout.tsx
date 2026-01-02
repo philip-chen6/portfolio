@@ -37,8 +37,11 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Philip Chen",
+  title: "philip's website",
   description: "Developer, researcher, musician",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

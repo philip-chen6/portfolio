@@ -26,8 +26,8 @@ export function DotGrid() {
     const spacing = 50;
     const dotRadius = 1;
     const influenceRadius = isTouchDevice ? 0 : 100;
-    const parallaxStrength = isTouchDevice ? 0 : 20;
-    const trailDecay = 0.98;
+    const parallaxStrength = isTouchDevice ? 0 : 35;
+    const trailDecay = 0.97;
 
     interface Dot {
       x: number;
@@ -109,7 +109,7 @@ export function DotGrid() {
         ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
 
         const baseOpacity = isDark ? 0.15 : 0.2;
-        const trailGlow = dot.brightness * 0.85;
+        const trailGlow = dot.brightness * 1.1;
         const opacity = baseOpacity + trailGlow;
 
         ctx.fillStyle = isDark
