@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react";
 
 export function DotGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const offsetRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -18,6 +19,7 @@ export function DotGrid() {
     const spacing = 40;
     const dotRadius = 1;
     const influenceRadius = 100;
+    const parallaxStrength = 20; // How much the grid moves with cursor
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -27,16 +29,18 @@ export function DotGrid() {
 
     const initDots = () => {
       dots.length = 0;
-      const cols = Math.ceil(canvas.width / spacing) + 1;
-      const rows = Math.ceil(canvas.height / spacing) + 1;
+      // Add extra dots around edges for parallax movement
+      const padding = parallaxStrength * 2;
+      const cols = Math.ceil((canvas.width + padding * 2) / spacing) + 1;
+      const rows = Math.ceil((canvas.height + padding * 2) / spacing) + 1;
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           dots.push({
-            x: i * spacing,
-            y: j * spacing,
-            baseX: i * spacing,
-            baseY: j * spacing,
+            x: i * spacing - padding,
+            y: j * spacing - padding,
+            baseX: i * spacing - padding,
+            baseY: j * spacing - padding,
           });
         }
       }
@@ -47,18 +51,32 @@ export function DotGrid() {
 
       const isDark = document.documentElement.classList.contains("dark");
 
+      // Calculate parallax offset based on mouse position relative to center
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const targetOffsetX = ((mouseRef.current.x - centerX) / centerX) * parallaxStrength;
+      const targetOffsetY = ((mouseRef.current.y - centerY) / centerY) * parallaxStrength;
+
+      // Smooth the offset movement
+      offsetRef.current.x += (targetOffsetX - offsetRef.current.x) * 0.05;
+      offsetRef.current.y += (targetOffsetY - offsetRef.current.y) * 0.05;
+
       dots.forEach((dot) => {
-        const dx = mouseRef.current.x - dot.baseX;
-        const dy = mouseRef.current.y - dot.baseY;
+        // Apply parallax offset to base position
+        const parallaxX = dot.baseX + offsetRef.current.x;
+        const parallaxY = dot.baseY + offsetRef.current.y;
+
+        const dx = mouseRef.current.x - parallaxX;
+        const dy = mouseRef.current.y - parallaxY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < influenceRadius) {
+        if (distance < influenceRadius && distance > 0) {
           const force = (1 - distance / influenceRadius) * 15;
-          dot.x = dot.baseX - (dx / distance) * force;
-          dot.y = dot.baseY - (dy / distance) * force;
+          dot.x = parallaxX - (dx / distance) * force;
+          dot.y = parallaxY - (dy / distance) * force;
         } else {
-          dot.x += (dot.baseX - dot.x) * 0.1;
-          dot.y += (dot.baseY - dot.y) * 0.1;
+          dot.x += (parallaxX - dot.x) * 0.1;
+          dot.y += (parallaxY - dot.y) * 0.1;
         }
 
         const opacity = distance < influenceRadius
@@ -81,12 +99,15 @@ export function DotGrid() {
     };
 
     const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
+      // Keep last position for smooth return
     };
 
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseleave", handleMouseLeave);
+
+    // Initialize mouse to center
+    mouseRef.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
     resize();
     draw();
