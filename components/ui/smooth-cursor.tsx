@@ -90,6 +90,7 @@ export function SmoothCursor({
   },
 }: SmoothCursorProps) {
   const [isMoving, setIsMoving] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(true) // Default to true to prevent flash
   const lastMousePos = useRef<Position>({ x: 0, y: 0 })
   const velocity = useRef<Position>({ x: 0, y: 0 })
   const lastUpdateTime = useRef(Date.now())
@@ -110,6 +111,19 @@ export function SmoothCursor({
   })
 
   useEffect(() => {
+    // Check for touch device
+    const checkTouchDevice = () => {
+      const hasTouchPoints = navigator.maxTouchPoints > 0
+      const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches
+      return hasTouchPoints || hasCoarsePointer
+    }
+
+    if (checkTouchDevice()) {
+      setIsTouchDevice(true)
+      return
+    }
+    setIsTouchDevice(false)
+
     const updateVelocity = (currentPos: Position) => {
       const currentTime = Date.now()
       const deltaTime = currentTime - lastUpdateTime.current
@@ -179,6 +193,9 @@ export function SmoothCursor({
       if (rafId) cancelAnimationFrame(rafId)
     }
   }, [cursorX, cursorY, rotation, scale])
+
+  // Don't render on touch devices
+  if (isTouchDevice) return null
 
   return (
     <motion.div

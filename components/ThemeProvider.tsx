@@ -13,7 +13,7 @@ const ThemeContext = createContext<{
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
   const [isAnimating, setIsAnimating] = useState(false);
   const [rippleStyle, setRippleStyle] = useState<React.CSSProperties>({});
   const [rippleTheme, setRippleTheme] = useState<Theme>("dark");
@@ -23,6 +23,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       setTheme(stored);
       document.documentElement.classList.toggle("dark", stored === "dark");
+    } else {
+      // Default to dark
+      document.documentElement.classList.add("dark");
     }
   }, []);
 

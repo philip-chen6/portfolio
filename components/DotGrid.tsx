@@ -1,11 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function DotGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const offsetRef = useRef({ x: 0, y: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Check for touch device
+    const hasTouchPoints = navigator.maxTouchPoints > 0;
+    const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouchDevice(hasTouchPoints || hasCoarsePointer);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -15,11 +23,21 @@ export function DotGrid() {
     if (!ctx) return;
 
     let animationId: number;
-    const dots: { x: number; y: number; baseX: number; baseY: number }[] = [];
-    const spacing = 40;
+    const spacing = 50;
     const dotRadius = 1;
-    const influenceRadius = 100;
-    const parallaxStrength = 20; // How much the grid moves with cursor
+    const influenceRadius = isTouchDevice ? 0 : 100;
+    const parallaxStrength = isTouchDevice ? 0 : 20;
+    const trailDecay = 0.98;
+
+    interface Dot {
+      x: number;
+      y: number;
+      baseX: number;
+      baseY: number;
+      brightness: number;
+    }
+
+    const dots: Dot[] = [];
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -29,7 +47,6 @@ export function DotGrid() {
 
     const initDots = () => {
       dots.length = 0;
-      // Add extra dots around edges for parallax movement
       const padding = parallaxStrength * 2;
       const cols = Math.ceil((canvas.width + padding * 2) / spacing) + 1;
       const rows = Math.ceil((canvas.height + padding * 2) / spacing) + 1;
@@ -41,6 +58,7 @@ export function DotGrid() {
             y: j * spacing - padding,
             baseX: i * spacing - padding,
             baseY: j * spacing - padding,
+            brightness: 0,
           });
         }
       }
@@ -51,18 +69,16 @@ export function DotGrid() {
 
       const isDark = document.documentElement.classList.contains("dark");
 
-      // Calculate parallax offset based on mouse position relative to center
+      // Calculate parallax offset
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
       const targetOffsetX = ((mouseRef.current.x - centerX) / centerX) * parallaxStrength;
       const targetOffsetY = ((mouseRef.current.y - centerY) / centerY) * parallaxStrength;
 
-      // Smooth the offset movement
       offsetRef.current.x += (targetOffsetX - offsetRef.current.x) * 0.05;
       offsetRef.current.y += (targetOffsetY - offsetRef.current.y) * 0.05;
 
       dots.forEach((dot) => {
-        // Apply parallax offset to base position
         const parallaxX = dot.baseX + offsetRef.current.x;
         const parallaxY = dot.baseY + offsetRef.current.y;
 
@@ -70,8 +86,18 @@ export function DotGrid() {
         const dy = mouseRef.current.y - parallaxY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
+        // Light up dots near cursor
+        if (distance < influenceRadius) {
+          const intensity = 1 - distance / influenceRadius;
+          dot.brightness = Math.max(dot.brightness, intensity);
+        }
+
+        // Decay brightness over time (creates trail)
+        dot.brightness *= trailDecay;
+
+        // Push dots away from cursor
         if (distance < influenceRadius && distance > 0) {
-          const force = (1 - distance / influenceRadius) * 15;
+          const force = (1 - distance / influenceRadius) * 12;
           dot.x = parallaxX - (dx / distance) * force;
           dot.y = parallaxY - (dy / distance) * force;
         } else {
@@ -79,15 +105,17 @@ export function DotGrid() {
           dot.y += (parallaxY - dot.y) * 0.1;
         }
 
-        const opacity = distance < influenceRadius
-          ? 0.25 + (1 - distance / influenceRadius) * 0.4
-          : 0.25;
-
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
+
+        const baseOpacity = isDark ? 0.15 : 0.2;
+        const trailGlow = dot.brightness * 0.85;
+        const opacity = baseOpacity + trailGlow;
+
         ctx.fillStyle = isDark
           ? `rgba(255, 255, 255, ${opacity})`
           : `rgba(0, 0, 0, ${opacity})`;
+
         ctx.fill();
       });
 
@@ -98,15 +126,13 @@ export function DotGrid() {
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    const handleMouseLeave = () => {
-      // Keep last position for smooth return
-    };
-
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
 
-    // Initialize mouse to center
+    // Only add mouse listener on non-touch devices
+    if (!isTouchDevice) {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
+
     mouseRef.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
     resize();
@@ -115,16 +141,14 @@ export function DotGrid() {
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [isTouchDevice]);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.8 }}
     />
   );
 }

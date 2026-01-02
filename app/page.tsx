@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import BlurText from "@/components/BlurText";
 import { LiveStats } from "@/components/LiveStats";
+import { MagneticLink } from "@/components/MagneticLink";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -39,32 +40,30 @@ export default function Home() {
           <LiveStats />
         </div>
         <div className="flex gap-4 text-sm items-center">
-          <a
-            href="www.linkedin.com/in/philip-chen6"
+          <MagneticLink
+            href="https://www.linkedin.com/in/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             linkedin
-          </a>
-
-          <a
+          </MagneticLink>
+          <MagneticLink
             href="https://github.com/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             github
-          </a>
-
-          <a
+          </MagneticLink>
+          <MagneticLink
             href="https://www.instagram.com/philip_chenn/"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             instagram
-          </a>
-          <a
+          </MagneticLink>
+          <MagneticLink
             href="mailto:philipchen247@gmail.com"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             email
-          </a>
+          </MagneticLink>
         </div>
       </motion.section>
 
@@ -74,9 +73,8 @@ export default function Home() {
           about
         </h2>
         <p className="text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
-          Hey, I'm Philip! I'm studying data science at UCSD. Currently, I do AI
-          research in a lab, and I build software and go to hackathons. I'm also
-          a musician in my free time.
+          Hey, I'm Philip! I study data science at UCSD. Currently, I do AI
+          research and build things. I also enjoy math and am a musician.
         </p>
       </motion.section>
 
@@ -89,12 +87,12 @@ export default function Home() {
           <div>
             <div className="flex justify-between items-baseline mb-1">
               <h3 className="text-base text-neutral-900 dark:text-neutral-100">
-                <a
-                  href="https://company1.com"
+                <MagneticLink
+                  href="https://roselab1.ucsd.edu/"
                   className="link-hover hover:text-accent dark:hover:text-accent transition-colors"
                 >
                   Roselab
-                </a>
+                </MagneticLink>
                 <span className="text-neutral-400 dark:text-neutral-500">
                   {" "}
                   · Research Assistant
@@ -108,23 +106,23 @@ export default function Home() {
               Research on LLM steering and reasoning. Co-authored paper accepted
               to NeurIPS 2025.
             </p>
-            <a
+            <MagneticLink
               href="https://openreview.net/pdf?id=HCG7UGGRqz"
-              className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              className="link-hover text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
             >
               [Paper]
-            </a>
+            </MagneticLink>
           </div>
 
           <div>
             <div className="flex justify-between items-baseline mb-1">
               <h3 className="text-base text-neutral-900 dark:text-neutral-100">
-                <a
-                  href="https://company2.com"
+                <MagneticLink
+                  href="https://www.netserpent.net/mission"
                   className="link-hover hover:text-accent dark:hover:text-accent transition-colors"
                 >
                   Netserpent
-                </a>
+                </MagneticLink>
                 <span className="text-neutral-400 dark:text-neutral-500">
                   {" "}
                   · AI Development Lead
@@ -157,18 +155,18 @@ export default function Home() {
               UCSD hackathon
             </p>
             <div className="flex gap-4 text-sm">
-              <a
+              <MagneticLink
                 href="https://evolve.qtzx.dev/"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
-              </a>
-              <a
+              </MagneticLink>
+              <MagneticLink
                 href="https://github.com/philip-chen6/evolve"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
-              </a>
+              </MagneticLink>
             </div>
           </div>
 
@@ -181,76 +179,47 @@ export default function Home() {
               hackathon
             </p>
             <div className="flex gap-4 text-sm">
-              <a
+              <MagneticLink
                 href="https://clarity.qtzx.dev/"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
-              </a>
-              <a
+              </MagneticLink>
+              <MagneticLink
                 href="https://github.com/yourusername/design-system"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
-              </a>
+              </MagneticLink>
             </div>
           </div>
 
           <div>
             <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
-              ClarifAI
+              Clarifai
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
               Multi-agent system for explaining research topics in video,
               finalist at NVIDIA Agent Hackathon
             </p>
             <div className="flex gap-4 text-sm">
-              <a
+              <MagneticLink
                 href="https://clarifai.stephenhung.me/"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
-              </a>
-              <a
+              </MagneticLink>
+              <MagneticLink
                 href="https://github.com/qtzx06/clarifai"
                 className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
-              </a>
+              </MagneticLink>
             </div>
           </div>
         </div>
       </motion.section>
 
-      {/* Contact Section */}
-      <motion.section variants={fadeInUp}>
-        <div className="flex gap-4 text-sm text-neutral-400 dark:text-neutral-500 items-center">
-          <a
-            href="www.linkedin.com/in/philip-chen6"
-            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            linkedin
-          </a>
-          <a
-            href="https://github.com/philip-chen6"
-            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            github
-          </a>
-          <a
-            href="https://www.instagram.com/philip_chenn/"
-            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            instagram
-          </a>
-          <a
-            href="mailto:philipchen247@gmail.com"
-            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            email
-          </a>
-        </div>
-      </motion.section>
     </motion.main>
   );
 }

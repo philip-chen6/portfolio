@@ -25,7 +25,7 @@ export function LiveStats() {
   if (!time) return null;
 
   return (
-    <span className="text-sm text-neutral-400 dark:text-neutral-500 font-mono tabular-nums">
+    <span className="text-sm text-neutral-400 dark:text-neutral-500 tabular-nums">
       {time}
     </span>
   );
