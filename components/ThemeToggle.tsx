@@ -1,14 +1,28 @@
 "use client";
 
 import { useTheme } from "./ThemeProvider";
+import { useRef } from "react";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      toggleTheme(x, y);
+    } else {
+      toggleTheme();
+    }
+  };
 
   return (
     <button
-      onClick={toggleTheme}
-      className="fixed top-8 right-8 text-neutral-600 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors"
+      ref={buttonRef}
+      onClick={handleClick}
+      className="fixed top-8 right-8 text-neutral-600 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors z-50"
       aria-label="Toggle theme"
     >
       <svg

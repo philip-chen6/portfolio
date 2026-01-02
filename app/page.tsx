@@ -39,22 +39,24 @@ export default function Home() {
         </p> */}
         <div className="flex gap-4 text-sm items-center">
           <a
-            href="https://github.com/philip-chen6"
-            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            github
-          </a>
-          <a
             href="www.linkedin.com/in/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             linkedin
           </a>
+
           <a
-            href="https://x.com/yourusername"
+            href="https://github.com/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
-            x
+            github
+          </a>
+
+          <a
+            href="https://www.instagram.com/philip_chenn/"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          >
+            instagram
           </a>
           <a
             href="mailto:philipchen247@gmail.com"
@@ -72,8 +74,8 @@ export default function Home() {
         </h2>
         <p className="text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
           Hey, I'm Philip! I'm studying data science at UCSD. Currently, I do AI
-          research in a lab, and I also build software and go to hackathons. I'm
-          also a musician.
+          research in a lab, and I build software and go to hackathons. I'm also
+          a musician in my free time.
         </p>
       </motion.section>
 
@@ -223,25 +225,25 @@ export default function Home() {
       <motion.section variants={fadeInUp}>
         <div className="flex gap-4 text-sm text-neutral-400 dark:text-neutral-500 items-center">
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="www.linkedin.com/in/philip-chen6"
             className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             linkedin
           </a>
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/philip-chen6"
             className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             github
           </a>
           <a
-            href="https://instagram.com/yourusername"
+            href="https://www.instagram.com/philip_chenn/"
             className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             instagram
           </a>
           <a
-            href="mailto:your.email@example.com"
+            href="mailto:philipchen247@gmail.com"
             className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             email
