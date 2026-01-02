@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { DotGrid } from "@/components/DotGrid";
 
 const satoshi = localFont({
   src: [
@@ -38,8 +39,8 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name",
-  description: "Personal portfolio",
+  title: "Philip Chen",
+  description: "Developer, researcher, musician",
 };
 
 export default function RootLayout({
@@ -51,6 +52,7 @@ export default function RootLayout({
     <html lang="en" className={satoshi.variable}>
       <body className="font-sans font-normal antialiased">
         <ThemeProvider>
+          <DotGrid />
           <SmoothCursor />
           <ThemeToggle />
           {children}

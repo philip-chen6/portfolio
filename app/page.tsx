@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import BlurText from "@/components/BlurText";
+import { LiveStats } from "@/components/LiveStats";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -34,9 +35,9 @@ export default function Home() {
           direction="top"
           className="text-5xl mb-4 text-neutral-900 dark:text-neutral-100"
         />
-        {/* <p className="text-lg text-neutral-500 dark:text-neutral-400 mb-6">
-          developer
-        </p> */}
+        <div className="mb-6">
+          <LiveStats />
+        </div>
         <div className="flex gap-4 text-sm items-center">
           <a
             href="www.linkedin.com/in/philip-chen6"
