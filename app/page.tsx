@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ScrollReveal from "@/components/ScrollReveal";
 import BlurText from "@/components/BlurText";
 
 const fadeInUp = {
@@ -35,34 +34,31 @@ export default function Home() {
           direction="top"
           className="text-5xl mb-4 text-neutral-900 dark:text-neutral-100"
         />
-        <p className="text-lg text-neutral-500 dark:text-neutral-400 mb-6">
+        {/* <p className="text-lg text-neutral-500 dark:text-neutral-400 mb-6">
           developer
-        </p>
-        <div className="flex gap-3 text-sm items-center">
+        </p> */}
+        <div className="flex gap-4 text-sm items-center">
           <a
-            href="https://github.com/yourusername"
-            className="text-neutral-500 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors"
+            href="https://github.com/philip-chen6"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             github
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
-            href="https://linkedin.com/in/yourusername"
-            className="text-neutral-500 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors"
+            href="www.linkedin.com/in/philip-chen6"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             linkedin
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
             href="https://x.com/yourusername"
-            className="text-neutral-500 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             x
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
-            href="mailto:your.email@example.com"
-            className="text-neutral-500 dark:text-neutral-400 hover:text-accent dark:hover:text-accent transition-colors"
+            href="mailto:philipchen247@gmail.com"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             email
           </a>
@@ -74,18 +70,11 @@ export default function Home() {
         <h2 className="text-xl mb-4 text-neutral-900 dark:text-neutral-100">
           about
         </h2>
-        <ScrollReveal
-          baseOpacity={0}
-          enableBlur={true}
-          baseRotation={2}
-          blurStrength={4}
-          containerClassName="my-0"
-          textClassName="text-base text-neutral-500 dark:text-neutral-400 leading-relaxed"
-        >
-          I'm a developer passionate about building clean, minimal, and functional
-          digital experiences. I focus on creating products that are both beautiful
-          and useful, with an emphasis on thoughtful design and smooth interactions.
-        </ScrollReveal>
+        <p className="text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          Hey, I'm Philip! I'm studying data science at UCSD. Currently, I do AI
+          research in a lab, and I also build software and go to hackathons. I'm
+          also a musician.
+        </p>
       </motion.section>
 
       {/* Experience Section */}
@@ -94,68 +83,57 @@ export default function Home() {
           experience
         </h2>
         <div className="space-y-8">
-          <div className="glass-hover p-3 -m-3 rounded-xl">
+          <div>
             <div className="flex justify-between items-baseline mb-1">
               <h3 className="text-base text-neutral-900 dark:text-neutral-100">
                 <a
                   href="https://company1.com"
-                  className="hover:text-accent dark:hover:text-accent transition-colors"
+                  className="link-hover hover:text-accent dark:hover:text-accent transition-colors"
                 >
-                  Company Name
+                  Roselab
                 </a>
-                <span className="text-neutral-400 dark:text-neutral-500"> · Senior Product Designer</span>
+                <span className="text-neutral-400 dark:text-neutral-500">
+                  {" "}
+                  · Research Assistant
+                </span>
               </h3>
               <span className="text-sm text-neutral-400 dark:text-neutral-500">
-                2022—Present
+                2025-Present
               </span>
             </div>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Led design for the core product, working with a team of 12
-              engineers. Shipped 3 major features that increased user engagement
-              by 40%.
+              Research on LLM steering and reasoning. Co-authored paper accepted
+              to NeurIPS 2025.
             </p>
+            <a
+              href="https://openreview.net/pdf?id=HCG7UGGRqz"
+              className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            >
+              [Paper]
+            </a>
           </div>
 
-          <div className="glass-hover p-3 -m-3 rounded-xl">
+          <div>
             <div className="flex justify-between items-baseline mb-1">
               <h3 className="text-base text-neutral-900 dark:text-neutral-100">
                 <a
                   href="https://company2.com"
-                  className="hover:text-accent dark:hover:text-accent transition-colors"
+                  className="link-hover hover:text-accent dark:hover:text-accent transition-colors"
                 >
-                  Another Company
+                  Netserpent
                 </a>
-                <span className="text-neutral-400 dark:text-neutral-500"> · Product Designer</span>
+                <span className="text-neutral-400 dark:text-neutral-500">
+                  {" "}
+                  · AI Development Lead
+                </span>
               </h3>
               <span className="text-sm text-neutral-400 dark:text-neutral-500">
-                2020—2022
+                2024-2025
               </span>
             </div>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Designed and launched the mobile app from 0 to 1. Conducted user
-              research and worked closely with stakeholders to define product
-              strategy.
-            </p>
-          </div>
-
-          <div className="glass-hover p-3 -m-3 rounded-xl">
-            <div className="flex justify-between items-baseline mb-1">
-              <h3 className="text-base text-neutral-900 dark:text-neutral-100">
-                <a
-                  href="https://company3.com"
-                  className="hover:text-accent dark:hover:text-accent transition-colors"
-                >
-                  Startup Inc
-                </a>
-                <span className="text-neutral-400 dark:text-neutral-500"> · Junior Designer</span>
-              </h3>
-              <span className="text-sm text-neutral-400 dark:text-neutral-500">
-                2018—2020
-              </span>
-            </div>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              First design hire at an early-stage startup. Built the design
-              system and established design processes across the company.
+              Led AI development for a cybersecurity startup. Built and
+              evaluated ML pipelines for automated threat classification.
             </p>
           </div>
         </div>
@@ -167,69 +145,72 @@ export default function Home() {
           projects
         </h2>
         <div className="space-y-6">
-          <div className="glass-hover p-3 -m-3 rounded-xl">
+          <div>
             <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
-              Project Alpha
+              Evolve
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
-              A minimal task manager built with Next.js and Supabase
+              A timeline generator for scientific fields, winner of Anthropic x
+              UCSD hackathon
             </p>
-            <div className="flex gap-3 text-sm">
+            <div className="flex gap-4 text-sm">
               <a
-                href="https://project-alpha.com"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                href="https://evolve.qtzx.dev/"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
               </a>
               <a
-                href="https://github.com/yourusername/project-alpha"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                href="https://github.com/philip-chen6/evolve"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
               </a>
             </div>
           </div>
 
-          <div className="glass-hover p-3 -m-3 rounded-xl">
+          <div>
             <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
-              Design System
+              Clarity
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
-              Open-source React component library with a focus on accessibility
+              A computer vision based pill classifier, winner of UCSD HealthLink
+              hackathon
             </p>
-            <div className="flex gap-3 text-sm">
+            <div className="flex gap-4 text-sm">
               <a
-                href="https://design-system.com"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                href="https://clarity.qtzx.dev/"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
               </a>
               <a
                 href="https://github.com/yourusername/design-system"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
               </a>
             </div>
           </div>
 
-          <div className="glass-hover p-3 -m-3 rounded-xl">
+          <div>
             <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
-              Weather App
+              ClarifAI
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
-              Clean weather dashboard using the OpenWeather API
+              Multi-agent system for explaining research topics in video,
+              finalist at NVIDIA Agent Hackathon
             </p>
-            <div className="flex gap-3 text-sm">
+            <div className="flex gap-4 text-sm">
               <a
-                href="https://weather-app.com"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                href="https://clarifai.stephenhung.me/"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 live
               </a>
               <a
-                href="https://github.com/yourusername/weather-app"
-                className="text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+                href="https://github.com/qtzx06/clarifai"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 github
               </a>
@@ -240,31 +221,28 @@ export default function Home() {
 
       {/* Contact Section */}
       <motion.section variants={fadeInUp}>
-        <div className="flex gap-3 text-sm text-neutral-400 dark:text-neutral-500 items-center">
+        <div className="flex gap-4 text-sm text-neutral-400 dark:text-neutral-500 items-center">
           <a
             href="https://linkedin.com/in/yourusername"
-            className="hover:text-accent dark:hover:text-accent transition-colors"
+            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             linkedin
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
             href="https://github.com/yourusername"
-            className="hover:text-accent dark:hover:text-accent transition-colors"
+            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             github
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
             href="https://instagram.com/yourusername"
-            className="hover:text-accent dark:hover:text-accent transition-colors"
+            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             instagram
           </a>
-          <span className="text-neutral-300 dark:text-neutral-600">·</span>
           <a
             href="mailto:your.email@example.com"
-            className="hover:text-accent dark:hover:text-accent transition-colors"
+            className="link-hover hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             email
           </a>

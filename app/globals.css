@@ -73,36 +73,24 @@
     cursor: none;
   }
 
-  /* Glassmorphism hover effect */
-  .glass-hover {
+  /* Subtle link hover */
+  .link-hover {
     position: relative;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s ease;
   }
 
-  .glass-hover::before {
+  .link-hover::after {
     content: '';
     position: absolute;
-    inset: -8px -12px;
-    background: hsl(var(--foreground) / 0.03);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-    border: 1px solid hsl(var(--foreground) / 0.05);
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
   }
 
-  .glass-hover:hover::before {
-    opacity: 1;
-  }
-
-  .glass-hover:hover {
-    transform: translateY(-2px);
-  }
-
-  .dark .glass-hover::before {
-    background: hsl(var(--foreground) / 0.05);
-    border: 1px solid hsl(var(--foreground) / 0.08);
+  .link-hover:hover::after {
+    width: 100%;
   }
 }
