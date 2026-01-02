@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
-import { DotGrid } from "@/components/DotGrid";
+import { AppWrapper } from "@/components/AppWrapper";
 
 const satoshi = localFont({
   src: [
@@ -52,10 +50,7 @@ export default function RootLayout({
     <html lang="en" className={satoshi.variable}>
       <body className="font-sans font-normal antialiased">
         <ThemeProvider>
-          <DotGrid />
-          <SmoothCursor />
-          <ThemeToggle />
-          {children}
+          <AppWrapper>{children}</AppWrapper>
         </ThemeProvider>
       </body>
     </html>
