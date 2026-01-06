@@ -108,7 +108,7 @@ export function DotGrid() {
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
 
-        const baseOpacity = isDark ? 0.15 : 0.2;
+        const baseOpacity = isDark ? 0.3 : 0.4;
         const trailGlow = dot.brightness * 1.1;
         const opacity = baseOpacity + trailGlow;
 
