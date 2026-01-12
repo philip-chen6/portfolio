@@ -33,10 +33,16 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       orbitSpeed: number;
       size: number;
       opacity: number;
+      hue: number;
+      brightness: number;
+      glowSize: number;
+      color: { r: number; g: number; b: number };
+      twinkleSpeed: number;
+      twinkleOffset: number;
     }
 
     const particles: Particle[] = [];
-    const particleCount = 500;
+    const particleCount = 360;
     const maxRadius = Math.min(canvas.width, canvas.height) * 0.5;
 
     for (let i = 0; i < particleCount; i++) {
@@ -44,14 +50,37 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const radius = 20 + Math.random() * maxRadius;
       const z = 50 + Math.random() * 400;
 
+      // Subtle color variation - mostly white with hints of blue/warm
+      const colorType = Math.random();
+      let r = 255,
+        g = 255,
+        b = 255;
+      if (colorType < 0.3) {
+        // Slight blue tint
+        r = 200 + Math.random() * 55;
+        g = 210 + Math.random() * 45;
+        b = 255;
+      } else if (colorType < 0.5) {
+        // Slight warm tint
+        r = 255;
+        g = 230 + Math.random() * 25;
+        b = 200 + Math.random() * 40;
+      }
+
       particles.push({
         angle,
         radius,
         z,
         speed: 0.5 + Math.random() * 0.5,
         orbitSpeed: 0.004 + Math.random() * 0.003,
-        size: 2 + Math.random() * 2.5,
-        opacity: 0.4 + Math.random() * 0.6,
+        size: 1 + Math.random() * 2,
+        opacity: 0.5 + Math.random() * 0.5,
+        hue: 0,
+        brightness: 0.6 + Math.random() * 0.4,
+        glowSize: 1 + Math.random() * 1.5,
+        color: { r, g, b },
+        twinkleSpeed: 0.5 + Math.random() * 2,
+        twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
 
@@ -71,10 +100,10 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       // Explosion starts at 60%
       const explosionStart = 0.6;
       const isExploding = progress > explosionStart;
-      const explosionProgress = isExploding ? (progress - explosionStart) / (1 - explosionStart) : 0;
+      const explosionProgress = isExploding
+        ? (progress - explosionStart) / (1 - explosionStart)
+        : 0;
       const explosionEase = explosionProgress * explosionProgress;
-
-      particles.sort((a, b) => b.z - a.z);
 
       particles.forEach((particle) => {
         // Spiral rotation
@@ -86,13 +115,20 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         // 3D projection
         const perspective = 300 / Math.max(30, 300 + particle.z);
         let x = cx + Math.cos(particle.angle) * particle.radius * perspective;
-        let y = cy + Math.sin(particle.angle) * particle.radius * perspective * 0.5;
+        let y =
+          cy + Math.sin(particle.angle) * particle.radius * perspective * 0.5;
 
         // During explosion: particles fly outward to screen edges
         if (isExploding) {
           const explodeDistance = explosionEase * canvas.width * 1.5;
-          x = cx + Math.cos(particle.angle) * (particle.radius * perspective + explodeDistance);
-          y = cy + Math.sin(particle.angle) * (particle.radius * perspective * 0.5 + explodeDistance * 0.6);
+          x =
+            cx +
+            Math.cos(particle.angle) *
+              (particle.radius * perspective + explodeDistance);
+          y =
+            cy +
+            Math.sin(particle.angle) *
+              (particle.radius * perspective * 0.5 + explodeDistance * 0.6);
         }
 
         const size = particle.size * perspective;
@@ -119,11 +155,53 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           ctx.stroke();
         }
 
-        // Main particle
-        ctx.beginPath();
-        ctx.arc(x, y, Math.max(1, size), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha * depthAlpha})`;
-        ctx.fill();
+        // Twinkle effect
+        const twinkle =
+          0.7 +
+          0.3 *
+            Math.sin(
+              elapsed * 0.003 * particle.twinkleSpeed + particle.twinkleOffset
+            );
+        const finalAlpha = alpha * depthAlpha * twinkle;
+        const { r, g, b } = particle.color;
+
+        const coreRadius = Math.max(0.5, size * 0.5);
+
+        // For small/distant particles, skip expensive gradient - just draw simple dot
+        if (size < 1.2) {
+          ctx.beginPath();
+          ctx.arc(x, y, coreRadius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${
+            finalAlpha * particle.brightness
+          })`;
+          ctx.fill();
+        } else {
+          // Subtle glow only for larger/closer particles
+          const glowRadius = Math.max(1, size * particle.glowSize);
+          const glow = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
+          glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${finalAlpha * 0.25})`);
+          glow.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+          ctx.beginPath();
+          ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+
+          // Crisp star core
+          ctx.beginPath();
+          ctx.arc(x, y, coreRadius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${
+            finalAlpha * particle.brightness
+          })`;
+          ctx.fill();
+
+          // Tiny bright center point
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(0.3, coreRadius * 0.4), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${
+            finalAlpha * particle.brightness
+          })`;
+          ctx.fill();
+        }
       });
 
       if (progress < 1) {

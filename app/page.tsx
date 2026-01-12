@@ -41,28 +41,34 @@ export default function Home() {
         </div>
         <div className="flex gap-4 text-sm items-center">
           <MagneticLink
-            href="https://www.linkedin.com/in/philip-chen6"
-            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            linkedin
-          </MagneticLink>
-          <MagneticLink
             href="https://github.com/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             github
           </MagneticLink>
           <MagneticLink
-            href="https://www.instagram.com/philip_chenn/"
+            href="https://www.linkedin.com/in/philip-chen6"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
-            instagram
+            linkedin
+          </MagneticLink>
+          <MagneticLink
+            href="https://x.com/f1eepe"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          >
+            x
           </MagneticLink>
           <MagneticLink
             href="mailto:philipchen247@gmail.com"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             email
+          </MagneticLink>
+          <MagneticLink
+            href="https://www.instagram.com/philip_chenn/"
+            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          >
+            instagram
           </MagneticLink>
         </div>
       </motion.section>
@@ -219,7 +225,6 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-
     </motion.main>
   );
 }
