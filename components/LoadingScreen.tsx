@@ -73,7 +73,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         z,
         speed: 0.5 + Math.random() * 0.5,
         orbitSpeed: 0.004 + Math.random() * 0.003,
-        size: 1 + Math.random() * 2,
+        size: 1.5 + Math.random() * 2.5,
         opacity: 0.5 + Math.random() * 0.5,
         hue: 0,
         brightness: 0.6 + Math.random() * 0.4,
