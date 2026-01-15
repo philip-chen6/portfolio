@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import BlurText from "@/components/BlurText";
 import { LiveStats } from "@/components/LiveStats";
 import { MagneticLink } from "@/components/MagneticLink";
@@ -20,6 +21,20 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText("philipchen247@gmail.com");
+    setCopied(true);
+  };
+
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
+
   return (
     <motion.main
       className="min-h-screen px-8 py-20 max-w-2xl mx-auto"
@@ -58,12 +73,26 @@ export default function Home() {
           >
             x
           </MagneticLink>
-          <MagneticLink
-            href="mailto:philipchen247@gmail.com"
-            className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            email
-          </MagneticLink>
+          <span className="relative">
+            <button
+              onClick={copyEmail}
+              className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors cursor-pointer"
+            >
+              email
+            </button>
+            <AnimatePresence>
+              {copied && (
+                <motion.span
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute top-full left-0 mt-3 text-neutral-600 dark:text-neutral-300 whitespace-nowrap text-xs"
+                >
+                  copied!
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </span>
           <MagneticLink
             href="https://www.instagram.com/philip_chenn/"
             className="link-hover text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
