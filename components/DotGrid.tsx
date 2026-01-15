@@ -72,8 +72,10 @@ export function DotGrid() {
       // Calculate parallax offset
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const targetOffsetX = ((mouseRef.current.x - centerX) / centerX) * parallaxStrength;
-      const targetOffsetY = ((mouseRef.current.y - centerY) / centerY) * parallaxStrength;
+      const targetOffsetX =
+        ((mouseRef.current.x - centerX) / centerX) * parallaxStrength;
+      const targetOffsetY =
+        ((mouseRef.current.y - centerY) / centerY) * parallaxStrength;
 
       offsetRef.current.x += (targetOffsetX - offsetRef.current.x) * 0.05;
       offsetRef.current.y += (targetOffsetY - offsetRef.current.y) * 0.05;
@@ -109,7 +111,7 @@ export function DotGrid() {
         ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
 
         const baseOpacity = isDark ? 0.3 : 0.2;
-        const trailGlow = dot.brightness * 1.1;
+        const trailGlow = dot.brightness * 1.5;
         const opacity = baseOpacity + trailGlow;
 
         ctx.fillStyle = isDark
@@ -146,9 +148,6 @@ export function DotGrid() {
   }, [isTouchDevice]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-    />
+    <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />
   );
 }

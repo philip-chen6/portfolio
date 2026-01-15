@@ -41,8 +41,27 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       twinkleOffset: number;
     }
 
+    // Pre-render glow sprites for performance
+    const glowSprite = document.createElement("canvas");
+    const glowSize = 32;
+    glowSprite.width = glowSize;
+    glowSprite.height = glowSize;
+    const glowCtx = glowSprite.getContext("2d")!;
+    const glowGradient = glowCtx.createRadialGradient(
+      glowSize / 2,
+      glowSize / 2,
+      0,
+      glowSize / 2,
+      glowSize / 2,
+      glowSize / 2
+    );
+    glowGradient.addColorStop(0, "rgba(255, 255, 255, 0.25)");
+    glowGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+    glowCtx.fillStyle = glowGradient;
+    glowCtx.fillRect(0, 0, glowSize, glowSize);
+
     const particles: Particle[] = [];
-    const particleCount = 360;
+    const particleCount = 400;
     const maxRadius = Math.min(canvas.width, canvas.height) * 0.5;
 
     for (let i = 0; i < particleCount; i++) {
@@ -83,6 +102,8 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
+
+    ctx.lineCap = "round";
 
     const draw = () => {
       const elapsed = Date.now() - startTime;
@@ -133,10 +154,9 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
         const size = particle.size * perspective;
 
-        // Fade
+        // Fade in at start only
         let alpha = particle.opacity;
         if (progress < 0.1) alpha *= progress / 0.1;
-        if (isExploding) alpha *= 1 - explosionEase;
 
         const depthAlpha = 0.3 + 0.7 * Math.min(1, perspective * 1.5);
 
@@ -148,7 +168,6 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
           ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * depthAlpha * 0.7})`;
           ctx.lineWidth = size * 0.5;
-          ctx.lineCap = "round";
           ctx.beginPath();
           ctx.moveTo(tailX, tailY);
           ctx.lineTo(x, y);
@@ -167,7 +186,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
         const coreRadius = Math.max(0.5, size * 0.5);
 
-        // For small/distant particles, skip expensive gradient - just draw simple dot
+        // For small/distant particles, skip glow - just draw simple dot
         if (size < 1.2) {
           ctx.beginPath();
           ctx.arc(x, y, coreRadius, 0, Math.PI * 2);
@@ -176,15 +195,17 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           })`;
           ctx.fill();
         } else {
-          // Subtle glow only for larger/closer particles
-          const glowRadius = Math.max(1, size * particle.glowSize);
-          const glow = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
-          glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${finalAlpha * 0.25})`);
-          glow.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
-          ctx.beginPath();
-          ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
-          ctx.fillStyle = glow;
-          ctx.fill();
+          // Draw pre-rendered glow sprite (much faster than createRadialGradient)
+          const glowRadius = size * particle.glowSize * 2;
+          ctx.globalAlpha = finalAlpha;
+          ctx.drawImage(
+            glowSprite,
+            x - glowRadius / 2,
+            y - glowRadius / 2,
+            glowRadius,
+            glowRadius
+          );
+          ctx.globalAlpha = 1;
 
           // Crisp star core
           ctx.beginPath();
