@@ -183,6 +183,24 @@ export default function Home() {
         <div className="space-y-6">
           <div>
             <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
+              Opal
+            </h3>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
+              An AI agent you can call and play games with, built at NexHacks @
+              CMU
+            </p>
+            <div className="flex gap-4 text-sm">
+              <MagneticLink
+                href="https://www.youtube.com/watch?v=3VHoNjrUD4Q"
+                className="link-hover text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              >
+                video
+              </MagneticLink>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-base text-neutral-900 dark:text-neutral-100 mb-1">
               Evolve
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2 leading-relaxed">
